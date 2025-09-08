@@ -5,29 +5,33 @@ plugins {
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.androidLibrary)
     alias(libs.plugins.vanniktech.mavenPublish)
+    alias(libs.plugins.composeMultiplatform)
+    alias(libs.plugins.kotlin.compose)
 }
 
-group = "io.github.kotlin"
-version = "1.0.0"
+group = "co.tz.pesalock"
+version = "1.0"
 
 kotlin {
     jvm()
     androidTarget {
         publishLibraryVariants("release")
-        @OptIn(ExperimentalKotlinGradlePluginApi::class)
-        compilerOptions {
-            jvmTarget.set(JvmTarget.JVM_11)
-        }
     }
     iosX64()
     iosArm64()
     iosSimulatorArm64()
-    linuxX64()
+    js(IR) {
+        browser()
+    }
 
     sourceSets {
         val commonMain by getting {
             dependencies {
-                //put your multiplatform dependencies here
+                implementation(compose.runtime)
+                implementation(compose.foundation)
+                implementation(compose.material3)
+                implementation(compose.ui)
+                implementation(libs.kotlinx.datetime)
             }
         }
         val commonTest by getting {
@@ -39,7 +43,7 @@ kotlin {
 }
 
 android {
-    namespace = "org.jetbrains.kotlinx.multiplatform.library.template"
+    namespace = "co.tz.pesalock.voni"
     compileSdk = libs.versions.android.compileSdk.get().toInt()
     defaultConfig {
         minSdk = libs.versions.android.minSdk.get().toInt()
@@ -55,31 +59,31 @@ mavenPublishing {
 
     signAllPublications()
 
-    coordinates(group.toString(), "library", version.toString())
+    coordinates(group.toString(), "voni", version.toString())
 
     pom {
-        name = "My library"
-        description = "A library."
+        name = "Voni"
+        description = "A multiplatform UI library for composables, orientation setup and charts."
         inceptionYear = "2024"
-        url = "https://github.com/kotlin/multiplatform-library-template/"
+        url = "https://github.com/Pesalock/Voni"
         licenses {
             license {
-                name = "XXX"
-                url = "YYY"
-                distribution = "ZZZ"
+                name = "The Apache License, Version 2.0"
+                url = "http://www.apache.org/licenses/LICENSE-2.0.txt"
+                distribution = "repo"
             }
         }
         developers {
             developer {
-                id = "XXX"
-                name = "YYY"
-                url = "ZZZ"
+                id = "pesalock"
+                name = "Pesalock Africa Limited"
+                url = "https://pesalock.co.tz"
             }
         }
         scm {
-            url = "XXX"
-            connection = "YYY"
-            developerConnection = "ZZZ"
+            url = "https://github.com/Pesalock/Voni"
+            connection = "scm:git:github.com/Pesalock/Voni.git"
+            developerConnection = "scm:git:ssh://github.com/Pesalock/Voni.git"
         }
     }
 }
