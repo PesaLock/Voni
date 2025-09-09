@@ -1,16 +1,16 @@
-import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
-import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import org.jetbrains.kotlin.gradle.ExperimentalWasmDsl
 
 plugins {
-    alias(libs.plugins.kotlinMultiplatform)
-    alias(libs.plugins.androidLibrary)
-    alias(libs.plugins.vanniktech.mavenPublish)
-    alias(libs.plugins.composeMultiplatform)
-    alias(libs.plugins.kotlin.compose)
+    alias(voniLibs.plugins.kotlinMultiplatform)
+    alias(voniLibs.plugins.androidLibrary)
+    alias(voniLibs.plugins.composeMultiplatform)
+    alias(voniLibs.plugins.kotlin.compose)
+    alias(voniLibs.plugins.vanniktechMavenPublish)
 }
 
 group = "co.tz.pesalock"
-version = "1.0"
+// This is a pre-release, internal-only version.
+version = "1.0.0-alpha01"
 
 kotlin {
     jvm()
@@ -20,7 +20,8 @@ kotlin {
     iosX64()
     iosArm64()
     iosSimulatorArm64()
-    js(IR) {
+    @OptIn(ExperimentalWasmDsl::class)
+    wasmJs {
         browser()
     }
 
@@ -31,12 +32,12 @@ kotlin {
                 implementation(compose.foundation)
                 implementation(compose.material3)
                 implementation(compose.ui)
-                implementation(libs.kotlinx.datetime)
+                implementation(voniLibs.kotlinx.datetime)
             }
         }
         val commonTest by getting {
             dependencies {
-                implementation(libs.kotlin.test)
+                implementation(voniLibs.kotlin.test)
             }
         }
     }
@@ -44,9 +45,9 @@ kotlin {
 
 android {
     namespace = "co.tz.pesalock.voni"
-    compileSdk = libs.versions.android.compileSdk.get().toInt()
+    compileSdk = voniLibs.versions.android.compileSdk.get().toInt()
     defaultConfig {
-        minSdk = libs.versions.android.minSdk.get().toInt()
+        minSdk = voniLibs.versions.android.minSdk.get().toInt()
     }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
@@ -69,7 +70,7 @@ mavenPublishing {
         licenses {
             license {
                 name = "The Apache License, Version 2.0"
-                url = "http://www.apache.org/licenses/LICENSE-2.0.txt"
+                url = "https://www.apache.org/licenses/LICENSE-2.0.txt"
                 distribution = "repo"
             }
         }
