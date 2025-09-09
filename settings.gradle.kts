@@ -11,7 +11,13 @@ dependencyResolutionManagement {
         google()
         mavenCentral()
     }
+    versionCatalogs {
+        create("voniLibs") {
+            from(files("gradle/libs.versions.toml"))
+        }
+    }
 }
 
-rootProject.name = "voni"
-include(":library")
+rootProject.name = "voni-build"
+include(":voni")
+project(":voni").projectDir = file("library")
