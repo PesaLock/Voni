@@ -1,32 +1,36 @@
 package co.tz.pesalock.voni.orientation
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.ui.layout.Layout
+import androidx.compose.runtime.setValue
+import kotlinx.browser.window
+import org.w3c.dom.events.Event
 
 @Composable
 actual fun rememberScreenOrientation(): ScreenOrientation {
-    val orientation = remember { mutableStateOf<ScreenOrientation>(Portrait) }
+    var orientation by remember {
+        mutableStateOf(
+            if (window.innerWidth > window.innerHeight) Landscape else Portrait
+        )
+    }
 
-    Layout(
-        content = {},
-        measurePolicy = { _, constraints ->
-            val widthPx = constraints.maxWidth
-            val heightPx = constraints.maxHeight
-
-            // If constraints are not meaningful (like -1 or 0), fallback to browser APIs
-            if (widthPx <= 0 || heightPx <= 0) {
-                val width = js("window.innerWidth") as Int
-                val height = js("window.innerHeight") as Int
-                orientation.value = if (width > height) Landscape else Portrait
+    DisposableEffect(Unit) {
+        val listener = { _: Event ->
+            orientation = if (window.innerWidth > window.innerHeight) {
+                Landscape
             } else {
-                orientation.value = if (widthPx > heightPx) Landscape else Portrait
+                Portrait
             }
-
-            layout(0, 0) {}
         }
-    )
 
-    return orientation.value
+        window.addEventListener("resize", listener)
+        onDispose {
+            window.removeEventListener("resize", listener)
+        }
+    }
+
+    return orientation
 }
