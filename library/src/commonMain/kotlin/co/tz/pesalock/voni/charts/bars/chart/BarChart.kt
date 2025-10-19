@@ -38,7 +38,7 @@ import co.tz.pesalock.voni.charts.bars.setup.ChartOrientation
 private data class BarRenderInfo(val rect: Rect, val data: BarData)
 
 @Composable
-public fun BarChart(
+fun BarChart(
     data: List<BarData>,
     modifier: Modifier = Modifier,
     config: ChartConfig
@@ -104,16 +104,14 @@ public fun BarChart(
             drawAxes(chartWidth, chartHeight, leftMargin, topMargin, config)
         }
 
-        // 2. Draw Bars
+
         Canvas(modifier = Modifier.fillMaxSize()) {
             barRenderInfo.forEach { info ->
                 drawBarShape(info.data.shape, info.data.color, info.rect.topLeft, info.rect.size)
             }
         }
 
-        // 3. Draw Labels and Scale Values
         if (config.orientation == ChartOrientation.Vertical) {
-            // Draw Y-Axis Scale
             if (config.part.showYAxis) {
                 val steps = 5
                 repeat(steps + 1) { i ->
