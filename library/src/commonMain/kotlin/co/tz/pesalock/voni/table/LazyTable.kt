@@ -1,16 +1,13 @@
 package co.tz.pesalock.voni.table
 
-import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.unit.dp
 
 /**
  * A generic table component using LazyColumn
@@ -29,27 +26,22 @@ fun <T> LazyTable(
     modifier: Modifier = Modifier,
     head: @Composable RowScope.(title: String, weight: Float) -> Unit,
     body: @Composable RowScope.(item: T, title: String, weight: Float) -> Unit
-) {
-    LazyColumn(
-        modifier = modifier
+) = Column(modifier = modifier) {
+    Row(
+        modifier = Modifier.fillMaxWidth()
     ) {
-        item {
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(8.dp)
-            ) {
-                columnWeights.forEach { (title, weight) ->
-                    head(title, weight)
-                }
-            }
+        columnWeights.forEach { (title, weight) ->
+            head(title, weight)
         }
+    }
+    LazyColumn(
+        modifier = Modifier.weight(1f).fillMaxWidth()
+    ) {
+
 
         items(table) { item ->
             Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(8.dp)
+                modifier = Modifier.fillMaxWidth()
             ) {
                 columnWeights.forEach { (title, weight) ->
                     body(item, title, weight)
