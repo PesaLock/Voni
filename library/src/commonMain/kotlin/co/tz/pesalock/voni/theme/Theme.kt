@@ -9,7 +9,7 @@ import androidx.compose.runtime.setValue
 /**
  * The default color palette used for the Light theme in the Voni library.
  */
-val VoniDefaultLightColors = ThemeColors(
+val voniDefaultLightColors = ThemeColors(
     primary = ColorTriplet(
         companion = LightColors.heavyBlue,
         dominant = LightColors.heavyWhite,
@@ -25,7 +25,7 @@ val VoniDefaultLightColors = ThemeColors(
 /**
  * The default color palette used for the Dark theme in the Voni library.
  */
-val VoniDefaultDarkColors = ThemeColors(
+val voniDefaultDarkColors = ThemeColors(
     primary = ColorTriplet(
         companion = DarkColors.heavyWhite,
         dominant = DarkColors.heavyDark,
@@ -45,13 +45,13 @@ val VoniDefaultDarkColors = ThemeColors(
  * the developer to override the default color palettes for a fully customized look and feel.
  *
  * @param initialTheme The user's starting theme preference. Defaults to [System].
- * @param lightColors The color palette to be used for the [Light] theme. Defaults to [VoniDefaultLightColors].
- * @param darkColors The color palette to be used for the [Dark] theme. Defaults to [VoniDefaultDarkColors].
+ * @param lightColors The color palette to be used for the [Light] theme. Defaults to [voniDefaultLightColors].
+ * @param darkColors The color palette to be used for the [Dark] theme. Defaults to [voniDefaultDarkColors].
  */
 class ThemeEngine(
     initialTheme: AppTheme = System,
-    private val lightColors: ThemeColors = VoniDefaultLightColors,
-    private val darkColors: ThemeColors = VoniDefaultDarkColors
+    private val lightColors: ThemeColors = voniDefaultLightColors,
+    private val darkColors: ThemeColors = voniDefaultDarkColors
 ) {
     // The user's preference (System, Light, or Dark). This is private and managed via setMode.
     var theme by mutableStateOf(initialTheme)
@@ -126,8 +126,8 @@ class ThemeEngine(
 @Composable
 fun rememberThemeEngine(
     initialTheme: AppTheme = System,
-    lightColors: ThemeColors = VoniDefaultLightColors,
-    darkColors: ThemeColors = VoniDefaultDarkColors
+    lightColors: ThemeColors = voniDefaultLightColors,
+    darkColors: ThemeColors = voniDefaultDarkColors
 ): ThemeEngine {
     val engine = remember(initialTheme, lightColors, darkColors) {
         ThemeEngine(initialTheme, lightColors, darkColors)
