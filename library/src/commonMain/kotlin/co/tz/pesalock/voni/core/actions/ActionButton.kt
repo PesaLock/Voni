@@ -1,4 +1,4 @@
-package io.github.kotlin.fibonacci.co.tz.pesalock.voni.core.actions
+package co.tz.pesalock.voni.core.actions
 
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -42,6 +42,7 @@ fun ActionButton(
     Text(
         text = value,
         modifier = Modifier
+            .onClick(onClick)
             .wrapContentSize(Alignment.Center)
             .align(Alignment.CenterVertically),
         style = TextStyle(
