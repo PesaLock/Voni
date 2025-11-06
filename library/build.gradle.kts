@@ -9,7 +9,7 @@ plugins {
     alias(voniLibs.plugins.vanniktechMavenPublish)
 }
 
-group = "io.github.pesalock"
+group = "tz.co.pesalock"
 // This is a pre-release, internal-only version.
 version = "1.0.0-alpha01"
 
@@ -50,7 +50,7 @@ kotlin {
 }
 
 android {
-    namespace = "io.github.pesalock.voni"
+    namespace = "tz.co.pesalock.voni"
     compileSdk = voniLibs.versions.android.compileSdk.get().toInt()
     defaultConfig {
         minSdk = voniLibs.versions.android.minSdk.get().toInt()
