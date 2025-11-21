@@ -1,4 +1,3 @@
-import com.vanniktech.maven.publish.SonatypeHost
 import org.jetbrains.kotlin.gradle.ExperimentalWasmDsl
 
 plugins {
@@ -10,8 +9,7 @@ plugins {
 }
 
 group = "tz.co.pesalock"
-// This is a pre-release, internal-only version.
-version = "1.0.0-alpha01"
+version = "1.0.0"
 
 kotlin {
     jvm()
@@ -60,19 +58,16 @@ android {
         targetCompatibility = JavaVersion.VERSION_11
     }
 }
-
 mavenPublishing {
-    publishToMavenCentral(SonatypeHost.S01)
+    publishToMavenCentral()
 
-    if (project.hasProperty("signing.keyId")) {
-        signAllPublications()
-    }
+    signAllPublications()
 
     coordinates(group.toString(), "voni", version.toString())
 
     pom {
         name = "Voni"
-        description = "A multiplatform UI library for composables, orientation setup and charts."
+        description = "A multiplatform UI library for composable, orientation setup and charts."
         inceptionYear = "2025"
         url = "https://github.com/Pesalock/Voni"
         licenses {
@@ -86,6 +81,9 @@ mavenPublishing {
             developer {
                 id = "pesalock"
                 name = "Pesalock Africa Limited"
+                email = "software@pesalock.co.tz"
+                organization = "Pesalock Africa Limited"
+                organizationUrl = "https://pesalock.co.tz"
                 url = "https://pesalock.co.tz"
             }
         }
