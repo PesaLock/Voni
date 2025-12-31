@@ -90,9 +90,7 @@ fun OverlayDrawer(
     ) {
         // Main content
         Box(
-            modifier = Modifier
-                .padding(bottom = navigationBarPadding)
-                .fillMaxSize()
+            modifier = Modifier.fillMaxSize()
         ) {
             content()
         }
