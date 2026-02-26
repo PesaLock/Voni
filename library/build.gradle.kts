@@ -4,7 +4,7 @@ import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
     alias(voniLibs.plugins.kotlinMultiplatform)
-    alias(voniLibs.plugins.androidLibrary)
+    id("com.android.kotlin.multiplatform.library")
     alias(voniLibs.plugins.composeMultiplatform)
     alias(voniLibs.plugins.kotlin.compose)
     alias(voniLibs.plugins.vanniktechMavenPublish)
@@ -20,8 +20,10 @@ kotlin {
             jvmTarget.set(JvmTarget.JVM_17)
         }
     }
-    androidTarget {
-        publishLibraryVariants("release")
+    androidLibrary {
+        namespace = "tz.co.pesalock.voni"
+        compileSdk = voniLibs.versions.android.compileSdk.get().toInt()
+        minSdk = voniLibs.versions.android.minSdk.get().toInt()
         @OptIn(ExperimentalKotlinGradlePluginApi::class)
         compilerOptions {
             jvmTarget.set(JvmTarget.JVM_17)
@@ -58,17 +60,6 @@ kotlin {
     }
 }
 
-android {
-    namespace = "tz.co.pesalock.voni"
-    compileSdk = voniLibs.versions.android.compileSdk.get().toInt()
-    defaultConfig {
-        minSdk = voniLibs.versions.android.minSdk.get().toInt()
-    }
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
-    }
-}
 mavenPublishing {
     publishToMavenCentral()
 
