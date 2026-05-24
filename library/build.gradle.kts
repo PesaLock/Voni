@@ -9,7 +9,7 @@ plugins {
 }
 
 group = "tz.co.pesalock"
-version = "1.0.1"
+version = "1.0.2"
 
 kotlin {
     jvm()
@@ -61,7 +61,7 @@ android {
 mavenPublishing {
     publishToMavenCentral()
 
-    signAllPublications()
+    if (System.getenv("CI") == "true") signAllPublications()
 
     coordinates(group.toString(), "voni", version.toString())
 
