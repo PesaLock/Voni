@@ -69,7 +69,7 @@ fun TextField(
     supportingText: @Composable (() -> Unit)? = null,
     maxLines: Int = if (singleLine) 1 else Int.MAX_VALUE,
     modifier: Modifier = Modifier,
-    placeholder: @Composable (() -> Unit)? = { Text(hint ?: "", color = colors.hint.inActive, fontSize = 13.sp) },
+    placeholder: @Composable (() -> Unit)? = { Text(hint ?: "", color = colors.hint.inActive, fontSize = 16.sp) },
     shape: Shape = RoundedCornerShape(8.dp)
 ) = Column(
     modifier = modifier,
@@ -90,7 +90,7 @@ fun TextField(
         enabled = enabled,
         readOnly = readOnly,
         textStyle = TextStyle(
-            fontSize = 14.sp,
+            fontSize = 16.sp,
             color = if (focused) colors.text.active else colors.text.inActive,
         ),
         placeholder = placeholder,

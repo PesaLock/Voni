@@ -27,9 +27,11 @@ fun ActionButton(
     modifier: Modifier,
     value: String,
     onClick: () -> Unit = {},
+    enabled: Boolean = true,
     colors: ActionButtonColors = ActionButtonColors()
 ) = Button(
     onClick = onClick,
+    enabled = enabled,
     colors = ButtonDefaults.buttonColors(
         disabledContainerColor = colors.disabledContainerColor,
         disabledContentColor = colors.disabledContentColor,
@@ -42,13 +44,12 @@ fun ActionButton(
     Text(
         text = value,
         modifier = Modifier
-            .onClick(onClick)
             .wrapContentSize(Alignment.Center)
             .align(Alignment.CenterVertically),
         style = TextStyle(
             fontSize = 16.sp,
             fontWeight = FontWeight(600),
-            color = colors.contentColor,
+            color = if (enabled) colors.contentColor else colors.disabledContentColor,
             textAlign = TextAlign.Center,
         )
     )
