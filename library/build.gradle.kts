@@ -1,8 +1,10 @@
 import org.jetbrains.kotlin.gradle.ExperimentalWasmDsl
+import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
     alias(voniLibs.plugins.kotlinMultiplatform)
-    alias(voniLibs.plugins.androidLibrary)
+    id("com.android.kotlin.multiplatform.library")
     alias(voniLibs.plugins.composeMultiplatform)
     alias(voniLibs.plugins.kotlin.compose)
     alias(voniLibs.plugins.vanniktechMavenPublish)
@@ -12,9 +14,20 @@ group = "tz.co.pesalock"
 version = "1.0.2"
 
 kotlin {
-    jvm()
-    androidTarget {
-        publishLibraryVariants("release")
+    jvm {
+        @OptIn(ExperimentalKotlinGradlePluginApi::class)
+        compilerOptions {
+            jvmTarget.set(JvmTarget.JVM_17)
+        }
+    }
+    androidLibrary {
+        namespace = "tz.co.pesalock.voni"
+        compileSdk = voniLibs.versions.android.compileSdk.get().toInt()
+        minSdk = voniLibs.versions.android.minSdk.get().toInt()
+        @OptIn(ExperimentalKotlinGradlePluginApi::class)
+        compilerOptions {
+            jvmTarget.set(JvmTarget.JVM_17)
+        }
     }
     iosX64()
     iosArm64()
@@ -47,17 +60,6 @@ kotlin {
     }
 }
 
-android {
-    namespace = "tz.co.pesalock.voni"
-    compileSdk = voniLibs.versions.android.compileSdk.get().toInt()
-    defaultConfig {
-        minSdk = voniLibs.versions.android.minSdk.get().toInt()
-    }
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
-    }
-}
 mavenPublishing {
     publishToMavenCentral()
 

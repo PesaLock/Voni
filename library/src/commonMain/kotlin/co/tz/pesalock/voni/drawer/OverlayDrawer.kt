@@ -41,6 +41,7 @@ fun OverlayDrawer(
     drawerContent: @Composable () -> Unit,
     modifier: Modifier = Modifier,
     scrimOpacity: Float = .6f,
+    dismissOnScrimTap: Boolean = true,
     animationDurationMs: Int = 300,
     enableGestures: Boolean = true,
     drawerBackground: Color = Color.White,
@@ -101,10 +102,16 @@ fun OverlayDrawer(
                 modifier = Modifier
                     .fillMaxSize()
                     .background(Color.Black.copy(alpha = scrimAlpha))
-                    .clickable(
-                        interactionSource = remember { MutableInteractionSource() },
-                        indication = null
-                    ) { drawerState.close() }
+                    .then(
+                        if (dismissOnScrimTap) {
+                            Modifier.clickable(
+                                interactionSource = remember { MutableInteractionSource() },
+                                indication = null
+                            ) { drawerState.close() }
+                        } else {
+                            Modifier
+                        }
+                    )
             )
         }
 

@@ -4,6 +4,9 @@ pluginManagement {
         mavenCentral()
         gradlePluginPortal()
     }
+    plugins {
+        id("com.android.kotlin.multiplatform.library") version "9.0.0"
+    }
 }
 
 dependencyResolutionManagement {

@@ -1,3 +1,6 @@
 package co.tz.pesalock.voni.theme
 
-actual fun isSystemInDarkTheme(): Boolean = isSystemInDarkTheme()
+import androidx.compose.runtime.Composable
+
+@Composable
+actual fun isSystemInDarkTheme(): Boolean = androidx.compose.foundation.isSystemInDarkTheme()
