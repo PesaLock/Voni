@@ -4,7 +4,7 @@ import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
     alias(voniLibs.plugins.kotlinMultiplatform)
-    id("com.android.kotlin.multiplatform.library")
+    // id("com.android.kotlin.multiplatform.library")
     alias(voniLibs.plugins.composeMultiplatform)
     alias(voniLibs.plugins.kotlin.compose)
     alias(voniLibs.plugins.vanniktechMavenPublish)
@@ -20,6 +20,7 @@ kotlin {
             jvmTarget.set(JvmTarget.JVM_17)
         }
     }
+    /*
     androidLibrary {
         namespace = "tz.co.pesalock.voni"
         compileSdk = voniLibs.versions.android.compileSdk.get().toInt()
@@ -29,6 +30,7 @@ kotlin {
             jvmTarget.set(JvmTarget.JVM_17)
         }
     }
+    */
     iosX64()
     iosArm64()
     iosSimulatorArm64()
