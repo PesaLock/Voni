@@ -12,7 +12,7 @@ import androidx.compose.ui.window.DialogProperties
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-internal fun FlexibleDialog(
+public fun FlexibleDialog(
     modifier: Modifier,
     onDismiss: () -> Unit,
     bar: @Composable ColumnScope.() -> Unit,

@@ -20,6 +20,7 @@ kotlin {
             jvmTarget.set(JvmTarget.JVM_17)
         }
     }
+    
     androidLibrary {
         namespace = "tz.co.pesalock.voni"
         compileSdk = voniLibs.versions.android.compileSdk.get().toInt()
@@ -29,6 +30,7 @@ kotlin {
             jvmTarget.set(JvmTarget.JVM_17)
         }
     }
+    
     iosX64()
     iosArm64()
     iosSimulatorArm64()
