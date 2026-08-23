@@ -24,14 +24,14 @@ jobs:
       matrix:
         include:
           - target: :voni:iosSimulatorArm64Test
-            os: macos-latest
+            runner: '["self-hosted", "macOS", "ARM64"]'
           - target: :voni:jvmTest
-            os: ubuntu-latest
+            runner: '["self-hosted", "linux", "x64"]'
           - target: :voni:compileKotlinWasmJs
-            os: ubuntu-latest
+            runner: '["self-hosted", "linux", "x64"]'
           - target: :voni:assembleAndroidMain
-            os: ubuntu-latest
-    runs-on: ${{ matrix.os }}
+            runner: '["self-hosted", "linux", "x64"]'
+    runs-on: ${{ fromJSON(matrix.runner) }}
 
     steps:
     - uses: actions/checkout@v4
