@@ -1,0 +1,38 @@
+# Secret scan rules for every Pesalock repository (workspace CLAUDE.md §14). CI runs them on each push and pull request
+# (.github/workflows/secret-scan.yml); run them yourself before pushing with `gitleaks git --log-opts="origin/staging..HEAD"`.
+# The default rules miss a secret written as a Kotlin default or an env fallback, which is how the identity-os database
+# password leaked in October 2026, so two rules below cover exactly that.
+#
+# A value that is public by design (a Firebase web apiKey) can be marked on its line with the comment `gitleaks:allow`.
+# Never add a real secret to an allowlist: remove it, then rotate it.
+title = "Pesalock secret scan"
+
+[extend]
+useDefault = true
+
+# A password, secret or token written as a value: `val dbPassword: String = "..."`, `password = "..."`, `"apiSecret": "..."`.
+[[rules]]
+id = "hardcoded-credential"
+description = "A password, secret or token written into code as a value"
+regex = '''(?i)[\w.-]*(?:password|passwd|secret|token|credential|api[_-]?key)[\w.-]*["']?\s*(?::\s*[\w<>?]+\s*)?(?:=|:)\s*["']([^"'\s$]{12,})["']'''
+secretGroup = 1
+entropy = 3.0
+keywords = ["password", "passwd", "secret", "token", "credential", "apikey", "api_key", "api-key"]
+[rules.allowlist]
+paths = ['''(^|/)(src/)?(test|commonTest|desktopTest|androidTest|jvmTest)/''']
+regexes = ['''^https?://''', '''^[A-Z][A-Z0-9_]+$''', '''^[a-z]+([_.-][a-z0-9]+)+$''', '''^[A-Za-z]+$''']
+
+# The same, as the fallback of an environment lookup: `env("X_PASSWORD") ?: "..."`, `os.getenv("X_TOKEN", "...")`, `${X_SECRET:-...}`.
+[[rules]]
+id = "credential-fallback"
+description = "A secret used as the default when an environment variable is missing"
+regex = '''(?i)(?:password|passwd|secret|token|credential|api[_-]?key)\w*["']?\s*\)\s*(?:\?:|\|\||\bor\b)\s*["']([^"'\s$]{12,})["']|getenv\(\s*["'][^"']*(?:password|secret|token|key)[^"']*["']\s*,\s*["']([^"'\s$]{12,})["']|\$\{\w*(?:PASSWORD|SECRET|TOKEN|KEY)\w*:-([^}\s]{12,})\}'''
+entropy = 3.0
+keywords = ["password", "passwd", "secret", "token", "credential", "apikey", "api_key", "api-key", "key"]
+[rules.allowlist]
+paths = ['''(^|/)(src/)?(test|commonTest|desktopTest|androidTest|jvmTest)/''']
+regexes = ['''^https?://''', '''^[A-Z][A-Z0-9_]+$''', '''^[a-z]+([_.-][a-z0-9]+)+$''']
+
+[allowlist]
+description = "Generated files and caches, never shipped"
+paths = ['''graphify-out/''', '''\.idea/''', '''(^|/)build/''', '''(^|/)bin/main/''']
